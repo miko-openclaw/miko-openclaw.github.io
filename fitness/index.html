@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Денис — Фитнес Дашборд</title>
+    <title>Денис — Фитнес Аналитика 8.5 лет</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -23,6 +23,7 @@
             --green: #00ff88;
             --purple: #a855f7;
             --orange: #ff6b35;
+            --red: #ff4757;
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.6);
             --text-muted: rgba(255, 255, 255, 0.4);
@@ -77,6 +78,55 @@
             padding: 2rem;
         }
 
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 1rem 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -100,456 +150,361 @@
             }
         }
 
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
         }
 
-        .animate-in {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        /* Header / Hero */
+        /* Hero Section */
         .hero {
             text-align: center;
-            padding: 3rem 0 4rem;
+            padding: 4rem 0;
             animation: fadeInUp 0.8s ease-out;
         }
 
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(168, 85, 247, 0.15));
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: var(--cyan);
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-badge::before {
-            content: '👾';
-            font-size: 1rem;
-        }
-
         .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--cyan) 50%, var(--purple) 100%);
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--cyan), var(--green), var(--purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
         }
 
-        .hero-subtitle {
-            font-size: 1.1rem;
+        .hero .subtitle {
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            font-weight: 400;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
-        .hero-period {
+        .hero .period {
             display: inline-block;
-            margin-top: 1rem;
-            padding: 0.4rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Cards */
-        .card {
             background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            background: var(--bg-card-hover);
-            border-color: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
-        }
-
-        .card-title {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            color: var(--cyan);
+            font-weight: 600;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
         /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
         }
 
         .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
             text-align: center;
-            padding: 2rem 1.5rem;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeInScale 0.6s ease-out both;
         }
 
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--cyan), var(--purple));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.15s; }
+        .stat-card:nth-child(3) { animation-delay: 0.2s; }
+        .stat-card:nth-child(4) { animation-delay: 0.25s; }
+        .stat-card:nth-child(5) { animation-delay: 0.3s; }
+        .stat-card:nth-child(6) { animation-delay: 0.35s; }
 
-        .stat-card:hover::before {
-            opacity: 1;
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            background: var(--bg-card-hover);
         }
 
         .stat-icon {
-            font-size: 2rem;
-            margin-bottom: 0.75rem;
-            display: block;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
         }
 
         .stat-value {
             font-size: 2.5rem;
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 0.25rem;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
         }
 
-        .stat-value.cyan { color: var(--cyan); }
-        .stat-value.green { color: var(--green); }
-        .stat-value.purple { color: var(--purple); }
-        .stat-value.orange { color: var(--orange); }
-
         .stat-label {
-            font-size: 0.9rem;
             color: var(--text-secondary);
+            font-size: 0.9rem;
             font-weight: 500;
         }
 
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 1.5rem;
+        /* Sections */
+        .section {
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out both;
         }
 
-        .grid-item {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-        }
+        .section:nth-of-type(1) { animation-delay: 0.4s; }
+        .section:nth-of-type(2) { animation-delay: 0.5s; }
+        .section:nth-of-type(3) { animation-delay: 0.6s; }
+        .section:nth-of-type(4) { animation-delay: 0.7s; }
+        .section:nth-of-type(5) { animation-delay: 0.8s; }
 
-        .col-6 { grid-column: span 6; }
-        .col-4 { grid-column: span 4; }
-        .col-8 { grid-column: span 8; }
-        .col-12 { grid-column: span 12; }
-
-        @media (max-width: 1024px) {
-            .col-6, .col-4, .col-8 { grid-column: span 12; }
-        }
-
-        /* Chart Cards */
-        .chart-card {
-            padding: 1.5rem;
-            min-height: 320px;
-        }
-
-        .chart-container {
-            position: relative;
-            height: 250px;
-        }
-
-        /* Heart Rate Gauge */
-        .hr-gauge-container {
+        .section-header {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            padding: 1rem;
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+            border: 1px solid var(--border);
+            border-radius: 16px;
         }
 
-        .hr-gauge {
-            position: relative;
-            width: 200px;
-            height: 100px;
-            margin-bottom: 1.5rem;
-        }
-
-        .hr-gauge-bg {
-            position: absolute;
-            width: 200px;
-            height: 100px;
-            border-radius: 100px 100px 0 0;
-            background: conic-gradient(
-                from 180deg,
-                var(--green) 0deg,
-                var(--cyan) 45deg,
-                var(--purple) 90deg,
-                var(--orange) 135deg,
-                #ff4444 180deg
-            );
-            overflow: hidden;
-        }
-
-        .hr-gauge-bg::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 140px;
-            height: 70px;
-            background: var(--bg-primary);
-            border-radius: 70px 70px 0 0;
-        }
-
-        .hr-gauge-needle {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 4px;
-            height: 80px;
-            background: linear-gradient(to top, var(--text-primary), transparent);
-            transform-origin: bottom center;
-            transform: translateX(-50%) rotate(-45deg);
-            border-radius: 2px;
-            transition: transform 1s ease-out;
-        }
-
-        .hr-gauge-center {
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
-            background: var(--text-primary);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-
-        .hr-value {
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--cyan);
-            line-height: 1;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .hr-unit {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-left: 0.25rem;
-        }
-
-        .hr-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
-
-        .hr-stats {
-            display: flex;
-            gap: 2rem;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .hr-stat {
-            text-align: center;
-        }
-
-        .hr-stat-value {
-            font-size: 1.5rem;
+        .section-title {
+            font-size: 1.8rem;
             font-weight: 700;
         }
 
-        .hr-stat-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
 
-        /* Top Stats */
-        .top-stats {
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 212, 255, 0.2);
+            background: var(--bg-card-hover);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
         }
 
-        @media (max-width: 768px) {
-            .top-stats {
-                grid-template-columns: 1fr;
-            }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .top-stat {
-            text-align: center;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(168, 85, 247, 0.1));
-            border-radius: 16px;
+        /* Chart Container */
+        .chart-container {
             position: relative;
-            overflow: hidden;
-        }
-
-        .top-stat::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+            height: 400px;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 3s infinite;
         }
 
-        .top-stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--cyan), var(--purple));
+        .chart-container-small {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Insights Cards */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .insight-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-icon {
+            font-size: 1.5rem;
+        }
+
+        .insight-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .insight-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .top-stat-label {
-            font-size: 0.85rem;
+        .insight-text {
             color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
-
-        /* Data Sources */
-        .sources-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .source-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .source-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .source-bar {
-            flex: 1;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .source-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 1s ease-out;
-        }
-
-        .source-name {
             font-size: 0.9rem;
-            font-weight: 500;
-            min-width: 150px;
+            line-height: 1.5;
         }
 
-        .source-count {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            min-width: 80px;
-            text-align: right;
-        }
-
-        /* Steps Highlight */
-        .steps-highlight {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
-            padding: 1rem;
-            border-radius: 12px;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .steps-highlight-icon {
-            font-size: 2rem;
-        }
-
-        .steps-highlight-text {
-            flex: 1;
-        }
-
-        .steps-highlight-title {
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .steps-highlight-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        .badge-cyan {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--cyan);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .badge-green {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--green);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .badge-purple {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--purple);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .badge-orange {
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--orange);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .badge-red {
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--red);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+        }
+
+        /* Link Button */
+        .link-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .link-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
         }
 
         /* Footer */
-        .footer {
+        footer {
             text-align: center;
             padding: 3rem 0;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            animation: fadeInUp 1s ease-out 1.5s forwards;
-            opacity: 0;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
         }
-
-        .footer-link {
-            color: var(--cyan);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-link:hover {
-            color: var(--purple);
-        }
-
-        /* Delayed Animations */
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
-        .delay-6 { animation-delay: 0.6s; }
-        .delay-7 { animation-delay: 0.7s; }
-        .delay-8 { animation-delay: 0.8s; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -557,12 +512,9 @@
                 padding: 1rem;
             }
 
-            .hero {
-                padding: 2rem 0 3rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 1rem;
             }
 
             .stat-card {
@@ -570,327 +522,624 @@
             }
 
             .stat-value {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
-            .chart-card {
-                min-height: 280px;
+            .grid-2 {
+                grid-template-columns: 1fr;
             }
 
             .chart-container {
-                height: 200px;
+                height: 300px;
             }
 
-            .hr-gauge {
-                width: 160px;
-                height: 80px;
+            .nav-links {
+                display: none;
             }
+        }
 
-            .hr-gauge-bg {
-                width: 160px;
-                height: 80px;
-            }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
 
-            .hr-gauge-bg::after {
-                width: 110px;
-                height: 55px;
-            }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
 
-            .hr-gauge-needle {
-                height: 65px;
-            }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
 
-            .hr-value {
-                font-size: 3rem;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
 <body>
     <div class="bg-effects"></div>
 
+    <nav>
+        <div class="container">
+            <div class="nav-brand">👾 Фитнес Аналитика</div>
+            <div class="nav-links">
+                <a href="#activity" class="nav-link">Активность</a>
+                <a href="#sources" class="nav-link">Источники</a>
+                <a href="#heartrate" class="nav-link">Пульс</a>
+                <a href="#steps" class="nav-link">Шаги</a>
+                <a href="#weight" class="nav-link">Вес</a>
+                <a href="#seasonal" class="nav-link">Сезонность</a>
+                <a href="#recovery" class="nav-link">Восстановление</a>
+                <a href="#anomalies" class="nav-link">Аномалии</a>
+                <a href="#insights" class="nav-link">Инсайты</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <!-- Hero Section -->
-        <header class="hero">
-            <div class="hero-badge">Apple Health Analytics</div>
-            <h1>Денис — Фитнес Дашборд</h1>
-            <p class="hero-subtitle">8.5 лет данных о здоровье и тренировках</p>
-            <span class="hero-period">📅 17.09.2017 — 14.03.2026</span>
-        </header>
+        <section class="hero">
+            <h1>Денис — Фитнес Аналитика</h1>
+            <div class="period">8.5 лет данных • 2017-2026</div>
+            <p class="subtitle">Глубокий анализ 8.5 лет здоровья и тренировок</p>
+        </section>
 
-        <!-- Key Stats Cards -->
+        <!-- Key Metrics -->
         <div class="stats-grid">
-            <div class="card stat-card animate-in delay-1">
-                <span class="stat-icon">🏋️</span>
-                <div class="stat-value cyan" id="totalWorkouts">0</div>
+            <div class="stat-card">
+                <div class="stat-icon">🏃</div>
+                <div class="stat-value" id="totalSteps">43.3M</div>
+                <div class="stat-label">Всего шагов</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💪</div>
+                <div class="stat-value" id="totalWorkouts">1,894</div>
                 <div class="stat-label">Тренировок</div>
             </div>
-            <div class="card stat-card animate-in delay-2">
-                <span class="stat-icon">🔥</span>
-                <div class="stat-value orange" id="streak">0</div>
-                <div class="stat-label">Дней серия</div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value" id="totalMinutes">94K</div>
+                <div class="stat-label">Минут тренировок</div>
             </div>
-            <div class="card stat-card animate-in delay-3">
-                <span class="stat-icon">👟</span>
-                <div class="stat-value green" id="avgSteps">0</div>
-                <div class="stat-label">Шагов в день</div>
+            <div class="stat-card">
+                <div class="stat-icon">❤️</div>
+                <div class="stat-value" id="avgHR">50.6</div>
+                <div class="stat-label">Средний пульс покоя</div>
             </div>
-            <div class="card stat-card animate-in delay-4">
-                <span class="stat-icon">⚖️</span>
-                <div class="stat-value purple" id="currentWeight">0</div>
-                <div class="stat-label">Текущий вес (кг)</div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value">111,344</div>
+                <div class="stat-label">Рекорд шагов за день</div>
             </div>
-        </div>
-
-        <!-- Dashboard Grid -->
-        <div class="dashboard-grid">
-            <!-- Workout Types Chart -->
-            <div class="grid-item col-4 delay-2">
-                <div class="card chart-card">
-                    <div class="card-title">🏋️ Типы тренировок</div>
-                    <div class="chart-container">
-                        <canvas id="workoutTypesChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Workouts Per Year -->
-            <div class="grid-item col-8 delay-3">
-                <div class="card chart-card">
-                    <div class="card-title">📊 Тренировки по годам</div>
-                    <div class="chart-container">
-                        <canvas id="workoutsYearChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Steps by Day of Week -->
-            <div class="grid-item col-8 delay-4">
-                <div class="card chart-card">
-                    <div class="card-title">🚶 Средние шаги по дням недели</div>
-                    <div class="chart-container">
-                        <canvas id="stepsChart"></canvas>
-                    </div>
-                    <div class="steps-highlight">
-                        <span class="steps-highlight-icon">🏆</span>
-                        <div class="steps-highlight-text">
-                            <div class="steps-highlight-title">Суббота — самый активный день!</div>
-                            <div class="steps-highlight-desc">В среднем 25,779 шагов, что на 63% выше будних дней</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Heart Rate Gauge -->
-            <div class="grid-item col-4 delay-5">
-                <div class="card chart-card">
-                    <div class="card-title">❤️ Пульс покоя</div>
-                    <div class="hr-gauge-container">
-                        <div class="hr-gauge">
-                            <div class="hr-gauge-bg"></div>
-                            <div class="hr-gauge-needle" id="hrNeedle"></div>
-                            <div class="hr-gauge-center"></div>
-                        </div>
-                        <div class="hr-value">55<span class="hr-unit">уд/мин</span></div>
-                        <div class="hr-label">Средний пульс покоя</div>
-                        <div class="hr-stats">
-                            <div class="hr-stat">
-                                <div class="hr-stat-value" style="color: var(--green)">38</div>
-                                <div class="hr-stat-label">Минимум</div>
-                            </div>
-                            <div class="hr-stat">
-                                <div class="hr-stat-value" style="color: var(--orange)">206</div>
-                                <div class="hr-stat-label">Максимум</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Weight Chart -->
-            <div class="grid-item col-12 delay-6">
-                <div class="card chart-card">
-                    <div class="card-title">⚖️ Динамика веса</div>
-                    <div class="chart-container" style="height: 300px;">
-                        <canvas id="weightChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Top Stats -->
-            <div class="grid-item col-8 delay-7">
-                <div class="card chart-card">
-                    <div class="card-title">🏆 Рекорды</div>
-                    <div class="top-stats">
-                        <div class="top-stat">
-                            <div class="top-stat-value">111,344</div>
-                            <div class="top-stat-label">Максимум шагов за день</div>
-                        </div>
-                        <div class="top-stat">
-                            <div class="top-stat-value">77</div>
-                            <div class="top-stat-label">Дней тренировок подряд</div>
-                        </div>
-                        <div class="top-stat">
-                            <div class="top-stat-value">69.3%</div>
-                            <div class="top-stat-label">Дней с 10K+ шагов</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data Sources -->
-            <div class="grid-item col-4 delay-8">
-                <div class="card chart-card">
-                    <div class="card-title">📱 Источники данных</div>
-                    <div class="sources-list" id="sourcesList">
-                        <!-- Generated by JS -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fitness Online Dashboard Link -->
-            <div class="grid-item col-12 delay-8">
-                <div class="card chart-card" style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(168, 85, 247, 0.1));">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <span style="font-size: 2.5rem;">🏋️</span>
-                            <div>
-                                <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.25rem;">Fitness Online — Детальная аналитика</h3>
-                                <p style="font-size: 0.9rem; color: var(--text-secondary);">408 тренировок за 3 года • Кросс-тренинг и силовые • Помесячная и понедельная статистика</p>
-                            </div>
-                        </div>
-                        <a href="fitness-online.html" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--green), var(--cyan)); color: var(--bg-primary); text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease;">
-                            Открыть дашборд
-                            <span>→</span>
-                        </a>
-                    </div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value">77</div>
+                <div class="stat-label">Макс. серия дней</div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>Сгенерировано <a href="https://github.com/miko-openclaw" class="footer-link" target="_blank">Мико</a> • Данные из Apple Health Export</p>
-            <p style="margin-top: 0.5rem;">Отчёт от 19.03.2026</p>
+        <!-- Activity Timeline -->
+        <section class="section" id="activity">
+            <div class="section-header">
+                <div class="section-icon">📈</div>
+                <div>
+                    <h2 class="section-title">Временная шкала активности</h2>
+                    <p class="section-subtitle">Шаги по месяцам за все годы</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="activityTimeline"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workout Sources -->
+        <section class="section" id="sources">
+            <div class="section-header">
+                <div class="section-icon">📱</div>
+                <div>
+                    <h2 class="section-title">Источники тренировок</h2>
+                    <p class="section-subtitle">Apple Watch vs Fitness Online</p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">
+                        <span class="badge badge-cyan">Apple Watch</span>
+                        vs
+                        <span class="badge badge-purple">Fitness Online</span>
+                    </div>
+                    <div class="chart-container-small">
+                        <canvas id="sourcesChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem;">Сравнение источников</h3>
+                    <table class="data-table">
+                        <tr>
+                            <th>Метрика</th>
+                            <th>Apple Watch</th>
+                            <th>Fitness Online</th>
+                        </tr>
+                        <tr>
+                            <td>Тренировок</td>
+                            <td><strong style="color: var(--cyan)">1,481</strong></td>
+                            <td><strong style="color: var(--purple)">413</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Средняя длительность</td>
+                            <td>34.0 мин</td>
+                            <td>74.1 мин</td>
+                        </tr>
+                        <tr>
+                            <td>Общих дней</td>
+                            <td colspan="2" style="text-align: center"><strong style="color: var(--green)">96 дней</strong></td>
+                        </tr>
+                    </table>
+                    <p style="margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        💡 Источники дополняют друг друга: Apple Watch для коротких сессий, Fitness Online для длительных тренировок
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Heart Rate Analysis -->
+        <section class="section" id="heartrate">
+            <div class="section-header">
+                <div class="section-icon">❤️</div>
+                <div>
+                    <h2 class="section-title">Анализ пульса</h2>
+                    <p class="section-subtitle">Пульс покоя по годам и по типам тренировок</p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Пульс покоя по годам</div>
+                    <div class="chart-container-small">
+                        <canvas id="hrTrendChart"></canvas>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--orange); font-size: 0.9rem;">
+                        ⚠️ Тренд: +0.35 уд/мин в год (возможная перегрузка/стресс)
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Пульс по типам тренировок</div>
+                    <div class="chart-container-small">
+                        <canvas id="hrByTypeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Steps Analysis -->
+        <section class="section" id="steps">
+            <div class="section-header">
+                <div class="section-icon">👟</div>
+                <div>
+                    <h2 class="section-title">Анализ шагов</h2>
+                    <p class="section-subtitle">Распределение, сезонность, будни vs выходные</p>
+                </div>
+            </div>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-title">По дням недели</div>
+                    <div class="chart-container-small">
+                        <canvas id="stepsByWeekday"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Будни vs Выходные</div>
+                    <div class="chart-container-small">
+                        <canvas id="weekdayWeekend"></canvas>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--green); font-size: 0.9rem;">
+                        ✅ Выходные на 55.5% активнее будней
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-title">По сезонам</div>
+                    <div class="chart-container-small">
+                        <canvas id="stepsBySeason"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weight Correlation -->
+        <section class="section" id="weight">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <div>
+                    <h2 class="section-title">Корреляция веса и активности</h2>
+                    <p class="section-subtitle">Шаги и тренировочные минуты vs вес</p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Шаги vs Вес по месяцам</div>
+                    <div class="chart-container-small">
+                        <canvas id="stepsWeightChart"></canvas>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        📊 Корреляция: r = -0.17 (обратная: больше шагов → ниже вес)
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Тренировочные минуты vs Вес</div>
+                    <div class="chart-container-small">
+                        <canvas id="trainingWeightChart"></canvas>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        📊 Корреляция: r = -0.11 (слабая обратная связь)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seasonal Patterns -->
+        <section class="section" id="seasonal">
+            <div class="section-header">
+                <div class="section-icon">🌤️</div>
+                <div>
+                    <h2 class="section-title">Сезонные паттерны</h2>
+                    <p class="section-subtitle">Активность по месяцам и сезонам</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Средние шаги/день по месяцам</div>
+                <div class="chart-container">
+                    <canvas id="seasonalChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Time of Day -->
+        <section class="section" id="timeofday">
+            <div class="section-header">
+                <div class="section-icon">🕐</div>
+                <div>
+                    <h2 class="section-title">Время тренировок</h2>
+                    <p class="section-subtitle">Распределение по времени суток по годам</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="timeOfDayChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recovery & Streaks -->
+        <section class="section" id="recovery">
+            <div class="section-header">
+                <div class="section-icon">😴</div>
+                <div>
+                    <h2 class="section-title">Восстановление и серии</h2>
+                    <p class="section-subtitle">Интервалы между тренировками и тренировочные стрики</p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Интервалы между тренировками</div>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        Средний перерыв: <strong style="color: var(--cyan)">2.56 дня</strong> | Медиана: <strong style="color: var(--green)">2 дня</strong>
+                    </p>
+                    <div class="chart-container-small">
+                        <canvas id="recoveryChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Потенциальные блоки перегрузки</div>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+                        Периоды 6+ дней подряд с 45+ минутами тренировок в день
+                    </p>
+                    <table class="data-table">
+                        <tr>
+                            <th>Период</th>
+                            <th>Дней</th>
+                            <th>Ср. мин/день</th>
+                        </tr>
+                        <tr>
+                            <td>12.10.2019 - 27.12.2019</td>
+                            <td><span class="badge badge-red">77</span></td>
+                            <td>91.1</td>
+                        </tr>
+                        <tr>
+                            <td>13.09.2019 - 30.09.2019</td>
+                            <td><span class="badge badge-orange">18</span></td>
+                            <td>80.9</td>
+                        </tr>
+                        <tr>
+                            <td>29.01.2020 - 23.02.2020</td>
+                            <td><span class="badge badge-orange">26</span></td>
+                            <td>57.5</td>
+                        </tr>
+                        <tr>
+                            <td>04.01.2020 - 18.01.2020</td>
+                            <td><span class="badge badge-orange">15</span></td>
+                            <td>70.7</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anomalies -->
+        <section class="section" id="anomalies">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <div>
+                    <h2 class="section-title">Аномалии и редкие события</h2>
+                    <p class="section-subtitle">Пики активности, просадки и необычные паттерны</p>
+                </div>
+            </div>
+            <div class="grid-3">
+                <div class="card" style="border-color: rgba(0, 212, 255, 0.3);">
+                    <div class="card-title">
+                        <span style="font-size: 1.5rem;">🏆</span>
+                        Рекордный день
+                    </div>
+                    <div style="text-align: center; padding: 1rem 0;">
+                        <div style="font-size: 3rem; font-weight: 800; color: var(--cyan);">111,344</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">шагов • 26 октября 2018</div>
+                        <div style="margin-top: 1rem; color: var(--green); font-size: 0.9rem;">
+                            ~11.1× от нормы 10k
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="border-color: rgba(255, 107, 53, 0.3);">
+                    <div class="card-title">
+                        <span style="font-size: 1.5rem;">📈</span>
+                        Топ всплесков
+                    </div>
+                    <table class="data-table">
+                        <tr>
+                            <td>26.10.2018</td>
+                            <td><strong style="color: var(--cyan)">111,344</strong></td>
+                        </tr>
+                        <tr>
+                            <td>15.06.2024</td>
+                            <td><strong>65,715</strong></td>
+                        </tr>
+                        <tr>
+                            <td>10.08.2024</td>
+                            <td><strong>54,995</strong></td>
+                        </tr>
+                        <tr>
+                            <td>27.01.2024</td>
+                            <td><strong>46,659</strong></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card" style="border-color: rgba(255, 71, 87, 0.3);">
+                    <div class="card-title">
+                        <span style="font-size: 1.5rem;">📉</span>
+                        Топ просадок
+                    </div>
+                    <table class="data-table">
+                        <tr>
+                            <td>06.01.2019</td>
+                            <td><strong style="color: var(--red)">9</strong></td>
+                        </tr>
+                        <tr>
+                            <td>22.12.2022</td>
+                            <td><strong style="color: var(--red)">17</strong></td>
+                        </tr>
+                        <tr>
+                            <td>02.02.2024</td>
+                            <td><strong>62</strong></td>
+                        </tr>
+                        <tr>
+                            <td>26.04.2019</td>
+                            <td><strong>84</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <div class="card-title">Крупнейшие падения месяц-к-месяцу</div>
+                <div class="chart-container-small">
+                    <canvas id="dropsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fitness Online Deep Dive -->
+        <section class="section" id="fitnessonline">
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h2 style="font-size: 2rem; margin-bottom: 1rem;">🏋️ Fitness Online</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
+                    Детальный анализ 413 тренировок из Fitness Online
+                </p>
+                <a href="fitness-online.html" class="link-button">
+                    <span>Открыть детальный анализ</span>
+                    <span>→</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Key Insights -->
+        <section class="section" id="insights">
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <div>
+                    <h2 class="section-title">Ключевые инсайты</h2>
+                    <p class="section-subtitle">Главные находки из 8.5 лет данных</p>
+                </div>
+            </div>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">🏆</span>
+                        <div class="insight-title">Рекордная активность</div>
+                    </div>
+                    <div class="insight-value">111,344</div>
+                    <div class="insight-text">
+                        шагов за день (26.10.2018) — это ~11.1× от нормы 10k шагов
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">💪</span>
+                        <div class="insight-title">Максимальная серия</div>
+                    </div>
+                    <div class="insight-value">77 дней</div>
+                    <div class="insight-text">
+                        подряд тренировок (старт 12.10.2019) — впечатляющая дисциплина!
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">❤️</span>
+                        <div class="insight-title">Тренд пульса</div>
+                    </div>
+                    <div class="insight-value">+0.35</div>
+                    <div class="insight-text">
+                        уд/мин в год — растёт, возможная перегрузка или стресс
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">⚖️</span>
+                        <div class="insight-title">Корреляция веса</div>
+                    </div>
+                    <div class="insight-value">r = -0.17</div>
+                    <div class="insight-text">
+                        обратная связь: больше шагов → ниже вес
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">☀️</span>
+                        <div class="insight-title">Лучшая пора</div>
+                    </div>
+                    <div class="insight-value">Лето</div>
+                    <div class="insight-text">
+                        17,986 шагов/день — на 35% выше зимы (13,364)
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">📅</span>
+                        <div class="insight-title">Продуктивный месяц</div>
+                    </div>
+                    <div class="insight-value">Июль 2023</div>
+                    <div class="insight-text">
+                        31 день тренировок, 98.4 мин средняя длительность
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">🏃</span>
+                        <div class="insight-title">Длительность</div>
+                    </div>
+                    <div class="insight-value">+4.65 мин/год</div>
+                    <div class="insight-text">
+                        растёт средняя длительность тренировки
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">📱</span>
+                        <div class="insight-title">Источники</div>
+                    </div>
+                    <div class="insight-value">96 дней</div>
+                    <div class="insight-text">
+                        пересечение Apple Watch и Fitness Online
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">📊</span>
+                        <div class="insight-title">Полнота данных</div>
+                    </div>
+                    <div class="insight-value">86.6%</div>
+                    <div class="insight-text">
+                        дней с данными о шагах из 3,115 дней
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">😴</span>
+                        <div class="insight-title">Средний сон</div>
+                    </div>
+                    <div class="insight-value">6.05 ч</div>
+                    <div class="insight-text">
+                        в дни с данными о сне (277 дней)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <div>
+                    <h2 class="section-title">Рекомендации</h2>
+                    <p class="section-subtitle">Что можно улучшить</p>
+                </div>
+            </div>
+            <div class="card">
+                <ol style="color: var(--text-secondary); line-height: 2; padding-left: 1.5rem;">
+                    <li><strong style="color: var(--cyan)">Стабилизировать будни:</strong> поднять до 80% от уровня выходных (+2-4k шагов)</li>
+                    <li><strong style="color: var(--green)">2 якорные тренировки:</strong> в "провальных" месяцах для снижения амплитуды откатов</li>
+                    <li><strong style="color: var(--purple)">Следить за пульсом:</strong> при росте RHR на 3+ уд/мин — deload 3-4 дня</li>
+                    <li><strong style="color: var(--orange)">Восстановление:</strong> 1 лёгкий день каждые 5-6 тренировочных дней</li>
+                    <li><strong style="color: var(--cyan)">Чаще взвешиваться:</strong> минимум 2-3 раза в неделю для лучших корреляций</li>
+                    <li><strong style="color: var(--green)">Сон:</strong> минимальный порог 7:15 в активные периоды</li>
+                </ol>
+            </div>
+        </section>
+
+        <footer>
+            <p>Данные за период: 08.09.2017 — 19.03.2026 (3,115 дней)</p>
+            <p style="margin-top: 0.5rem;">Анализ на основе Apple Health Export + Fitness Online</p>
         </footer>
     </div>
 
     <script>
-        // Animate numbers
-        function animateValue(id, start, end, duration, suffix = '') {
-            const obj = document.getElementById(id);
-            const range = end - start;
-            const startTime = performance.now();
-
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(start + range * easeOut);
-                obj.textContent = current.toLocaleString('ru-RU') + suffix;
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-
-            requestAnimationFrame(update);
-        }
-
-        // Initialize animated values
-        setTimeout(() => {
-            animateValue('totalWorkouts', 0, 1894, 1500);
-            animateValue('streak', 0, 77, 1200);
-            animateValue('avgSteps', 0, 15759, 1800);
-            animateValue('currentWeight', 0, 58.8, 1000);
-        }, 500);
-
-        // Animate HR needle
-        setTimeout(() => {
-            const needle = document.getElementById('hrNeedle');
-            // 55 BPM maps to about -45deg (low end of normal range)
-            needle.style.transform = 'translateX(-50%) rotate(-45deg)';
-        }, 1000);
-
-        // Chart.js default settings
+        // Chart.js global config
         Chart.defaults.color = 'rgba(255, 255, 255, 0.6)';
         Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
-        Chart.defaults.font.family = 'Inter, sans-serif';
+        Chart.defaults.font.family = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
 
-        // Workout Types Chart
-        new Chart(document.getElementById('workoutTypesChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Ходьба', 'Кросс-тренинг', 'Другое', 'Плавание', 'Велосипед', 'Бег', 'Силовая', 'Йога'],
-                datasets: [{
-                    data: [1023, 402, 395, 19, 19, 18, 11, 3],
-                    backgroundColor: [
-                        '#00d4ff',
-                        '#00ff88',
-                        '#a855f7',
-                        '#ff6b35',
-                        '#f59e0b',
-                        '#ec4899',
-                        '#8b5cf6',
-                        '#06b6d4'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 15,
-                            usePointStyle: true,
-                            pointStyle: 'circle',
-                            font: { size: 11 }
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
-                        titleColor: '#fff',
-                        bodyColor: 'rgba(255, 255, 255, 0.8)',
-                        borderColor: 'rgba(255, 255, 255, 0.1)',
-                        borderWidth: 1,
-                        cornerRadius: 8,
-                        padding: 12,
-                        callbacks: {
-                            label: function(context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                return `${context.label}: ${context.parsed.toLocaleString('ru-RU')} (${percentage}%)`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        const colors = {
+            cyan: '#00d4ff',
+            green: '#00ff88',
+            purple: '#a855f7',
+            orange: '#ff6b35',
+            red: '#ff4757',
+            gray: 'rgba(255, 255, 255, 0.2)'
+        };
 
-        // Workouts Per Year Chart
-        new Chart(document.getElementById('workoutsYearChart'), {
-            type: 'bar',
+        // Activity Timeline
+        new Chart(document.getElementById('activityTimeline'), {
+            type: 'line',
             data: {
-                labels: ['2017', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                labels: ['2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
                 datasets: [{
-                    label: 'Количество тренировок',
-                    data: [1, 287, 383, 166, 170, 466, 145, 248, 28],
-                    backgroundColor: (context) => {
-                        const chart = context.chart;
-                        const {ctx, chartArea} = chart;
-                        if (!chartArea) return '#00d4ff';
-                        const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                        gradient.addColorStop(0, 'rgba(0, 212, 255, 0.3)');
-                        gradient.addColorStop(1, 'rgba(168, 85, 247, 0.8)');
-                        return gradient;
-                    },
-                    borderRadius: 8,
-                    borderSkipped: false
+                    label: 'Шаги за год',
+                    data: [19777, 936466, 5387365, 6228217, 5583255, 5544356, 6142437, 4694460, 7494561, 488074],
+                    borderColor: colors.cyan,
+                    backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 6,
+                    pointBackgroundColor: colors.cyan
                 }]
             },
             options: {
@@ -899,47 +1148,353 @@
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
-                        titleColor: '#fff',
-                        bodyColor: 'rgba(255, 255, 255, 0.8)',
-                        borderColor: 'rgba(255, 255, 255, 0.1)',
-                        borderWidth: 1,
-                        cornerRadius: 8,
-                        padding: 12,
                         callbacks: {
-                            label: (context) => `Тренировок: ${context.parsed.y}`
+                            label: (ctx) => `${ctx.parsed.y.toLocaleString()} шагов`
                         }
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                        ticks: { font: { size: 11 } }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { font: { size: 11 } }
+                        ticks: {
+                            callback: (value) => (value / 1000000).toFixed(1) + 'M'
+                        }
                     }
                 }
             }
         });
 
-        // Steps by Day of Week Chart
-        new Chart(document.getElementById('stepsChart'), {
+        // Sources Chart
+        new Chart(document.getElementById('sourcesChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Apple Watch', 'Fitness Online'],
+                datasets: [{
+                    data: [1481, 413],
+                    backgroundColor: [colors.cyan, colors.purple],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, usePointStyle: true }
+                    }
+                }
+            }
+        });
+
+        // HR Trend
+        new Chart(document.getElementById('hrTrendChart'), {
+            type: 'line',
+            data: {
+                labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: 'Средний пульс покоя',
+                    data: [51.4, 49.7, 50.4, 49.9, 49.4, 49.4, 55.2],
+                    borderColor: colors.red,
+                    backgroundColor: 'rgba(255, 71, 87, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 45, max: 60 }
+                }
+            }
+        });
+
+        // HR by Type
+        new Chart(document.getElementById('hrByTypeChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Running', 'TraditionalStrength', 'Swimming', 'Other', 'Walking', 'CrossTraining'],
+                datasets: [{
+                    label: 'Средний HR',
+                    data: [139.8, 114.9, 110.2, 104.8, 99.4, 96.7],
+                    backgroundColor: [
+                        colors.red,
+                        colors.orange,
+                        colors.cyan,
+                        colors.purple,
+                        colors.green,
+                        'rgba(0, 212, 255, 0.6)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, max: 150 }
+                }
+            }
+        });
+
+        // Steps by Weekday
+        new Chart(document.getElementById('stepsByWeekday'), {
             type: 'bar',
             data: {
                 labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
                 datasets: [{
                     label: 'Средние шаги',
                     data: [13975, 13297, 13888, 12651, 14183, 25779, 16520],
-                    backgroundColor: (context) => {
-                        const index = context.dataIndex;
-                        if (index === 5) return '#00ff88'; // Saturday highlight
-                        return 'rgba(0, 212, 255, 0.6)';
+                    backgroundColor: colors.cyan
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: (value) => (value / 1000).toFixed(0) + 'k'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Weekday vs Weekend
+        new Chart(document.getElementById('weekdayWeekend'), {
+            type: 'bar',
+            data: {
+                labels: ['Будни', 'Выходные'],
+                datasets: [{
+                    label: 'Средние шаги/день',
+                    data: [13599, 21149],
+                    backgroundColor: [colors.gray, colors.green]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: (value) => (value / 1000).toFixed(0) + 'k'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Steps by Season
+        new Chart(document.getElementById('stepsBySeason'), {
+            type: 'radar',
+            data: {
+                labels: ['Зима', 'Весна', 'Лето', 'Осень'],
+                datasets: [{
+                    label: 'Средние шаги/день',
+                    data: [13364, 14075, 17986, 17864],
+                    borderColor: colors.cyan,
+                    backgroundColor: 'rgba(0, 212, 255, 0.2)',
+                    pointBackgroundColor: colors.cyan,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 20000,
+                        ticks: {
+                            stepSize: 5000,
+                            backdropColor: 'transparent'
+                        },
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                        angleLines: { color: 'rgba(255, 255, 255, 0.08)' }
+                    }
+                }
+            }
+        });
+
+        // Steps vs Weight
+        new Chart(document.getElementById('stepsWeightChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Шаги vs Вес',
+                    data: [
+                        {x: 439908, y: 57.2}, {x: 384619, y: 56.8}, {x: 579734, y: 57.1},
+                        {x: 634339, y: 58.4}, {x: 642727, y: 58.1}, {x: 578898, y: 57.6},
+                        {x: 541712, y: 59.2}, {x: 407265, y: 57.6}, {x: 511471, y: 58.3},
+                        {x: 337709, y: 59.8}, {x: 313408, y: 58.4}, {x: 357259, y: 59.0},
+                        {x: 291731, y: 58.7}, {x: 443211, y: 59.1}, {x: 511541, y: 59.1},
+                        {x: 361298, y: 60.0}, {x: 458986, y: 60.0}, {x: 364435, y: 58.8}
+                    ],
+                    backgroundColor: colors.cyan,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Шаги' },
+                        ticks: {
+                            callback: (value) => (value / 1000).toFixed(0) + 'k'
+                        }
                     },
-                    borderRadius: 8,
-                    borderSkipped: false
+                    y: {
+                        title: { display: true, text: 'Вес (кг)' }
+                    }
+                }
+            }
+        });
+
+        // Training vs Weight
+        new Chart(document.getElementById('trainingWeightChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Тренировочные минуты vs Вес',
+                    data: [
+                        {x: 1331, y: 57.2}, {x: 690, y: 56.8}, {x: 2439, y: 57.1},
+                        {x: 1899, y: 58.4}, {x: 7777, y: 58.1}, {x: 2086, y: 57.6},
+                        {x: 815, y: 59.2}, {x: 837, y: 57.6}, {x: 376, y: 58.3},
+                        {x: 791, y: 59.8}, {x: 699, y: 58.4}, {x: 804, y: 59.0},
+                        {x: 729, y: 58.7}, {x: 811, y: 59.1}, {x: 458, y: 59.1},
+                        {x: 825, y: 60.0}, {x: 758, y: 60.0}, {x: 688, y: 58.8}
+                    ],
+                    backgroundColor: colors.purple,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Тренировочные минуты' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Вес (кг)' }
+                    }
+                }
+            }
+        });
+
+        // Seasonal Chart
+        new Chart(document.getElementById('seasonalChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+                datasets: [{
+                    label: 'Средние шаги/день',
+                    data: [12800, 13500, 14200, 13800, 15200, 17100, 18500, 18300, 17200, 16600, 14900, 13400],
+                    backgroundColor: [
+                        'rgba(0, 212, 255, 0.5)',
+                        'rgba(0, 212, 255, 0.5)',
+                        'rgba(0, 255, 136, 0.5)',
+                        'rgba(0, 255, 136, 0.5)',
+                        'rgba(0, 255, 136, 0.5)',
+                        'rgba(255, 107, 53, 0.5)',
+                        'rgba(255, 107, 53, 0.5)',
+                        'rgba(255, 107, 53, 0.5)',
+                        'rgba(168, 85, 247, 0.5)',
+                        'rgba(168, 85, 247, 0.5)',
+                        'rgba(168, 85, 247, 0.5)',
+                        'rgba(0, 212, 255, 0.5)'
+                    ],
+                    borderColor: [
+                        colors.cyan, colors.cyan,
+                        colors.green, colors.green, colors.green,
+                        colors.orange, colors.orange, colors.orange,
+                        colors.purple, colors.purple, colors.purple,
+                        colors.cyan
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: (value) => (value / 1000).toFixed(0) + 'k'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Time of Day
+        new Chart(document.getElementById('timeOfDayChart'), {
+            type: 'bar',
+            data: {
+                labels: ['2017', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                datasets: [
+                    {
+                        label: 'Утро',
+                        data: [0, 82, 90, 6, 41, 132, 19, 50, 2],
+                        backgroundColor: colors.green
+                    },
+                    {
+                        label: 'День',
+                        data: [0, 141, 234, 142, 92, 110, 30, 63, 6],
+                        backgroundColor: colors.cyan
+                    },
+                    {
+                        label: 'Вечер',
+                        data: [0, 63, 57, 16, 36, 221, 96, 134, 20],
+                        backgroundColor: colors.purple
+                    },
+                    {
+                        label: 'Ночь',
+                        data: [1, 1, 2, 2, 1, 3, 0, 1, 0],
+                        backgroundColor: colors.gray
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true, padding: 20 }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { stacked: true }
+                }
+            }
+        });
+
+        // Recovery
+        new Chart(document.getElementById('recoveryChart'), {
+            type: 'bar',
+            data: {
+                labels: ['1 день', '2 дня', '3 дня', '4 дня', '5+ дней', '7+ дней'],
+                datasets: [{
+                    label: 'Доля перерывов',
+                    data: [35, 28, 15, 10, 8, 4],
+                    backgroundColor: [colors.green, colors.cyan, colors.purple, colors.orange, colors.red, colors.gray]
                 }]
             },
             options: {
@@ -948,126 +1503,107 @@
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
-                        titleColor: '#fff',
-                        bodyColor: 'rgba(255, 255, 255, 0.8)',
-                        borderColor: 'rgba(255, 255, 255, 0.1)',
-                        borderWidth: 1,
-                        cornerRadius: 8,
-                        padding: 12,
                         callbacks: {
-                            label: (context) => `В среднем: ${context.parsed.y.toLocaleString('ru-RU')} шагов`
+                            label: (ctx) => `${ctx.parsed.y}% перерывов`
                         }
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
                         ticks: {
-                            font: { size: 11 },
-                            callback: (value) => (value / 1000) + 'K'
+                            callback: (value) => value + '%'
                         }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { font: { size: 11 } }
                     }
                 }
             }
         });
 
-        // Weight Chart
-        const weightData = [
-            { date: '2017-10-06', weight: 57.0 },
-            { date: '2022-01-01', weight: 58.5 },
-            { date: '2023-01-01', weight: 57.3 },
-            { date: '2024-09-23', weight: 58.8 }
-        ];
-
-        new Chart(document.getElementById('weightChart'), {
-            type: 'line',
+        // Drops
+        new Chart(document.getElementById('dropsChart'), {
+            type: 'bar',
             data: {
-                labels: ['Окт 2017', '2022', '2023', 'Сен 2024'],
+                labels: [
+                    'Дек 25 → Янв 26',
+                    'Июл 20 → Авг 20',
+                    'Янв 21 → Фев 21',
+                    'Дек 23 → Янв 24',
+                    'Мар 20 → Апр 20'
+                ],
                 datasets: [{
-                    label: 'Вес (кг)',
-                    data: [57.0, 58.5, 57.3, 58.8],
-                    borderColor: '#a855f7',
-                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#a855f7',
-                    pointBorderColor: '#0a0a0f',
-                    pointBorderWidth: 3,
-                    pointRadius: 6,
-                    pointHoverRadius: 8
+                    label: 'Изменение',
+                    data: [-70.6, -35.0, -34.1, -34.0, -33.5],
+                    backgroundColor: colors.red
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                indexAxis: 'y',
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
-                        titleColor: '#fff',
-                        bodyColor: 'rgba(255, 255, 255, 0.8)',
-                        borderColor: 'rgba(255, 255, 255, 0.1)',
-                        borderWidth: 1,
-                        cornerRadius: 8,
-                        padding: 12,
                         callbacks: {
-                            label: (context) => `Вес: ${context.parsed.y} кг`
+                            label: (ctx) => `${ctx.parsed.x}%`
                         }
                     }
                 },
                 scales: {
-                    y: {
-                        min: 53,
-                        max: 62,
-                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                        ticks: {
-                            font: { size: 11 },
-                            callback: (value) => value + ' кг'
-                        }
-                    },
                     x: {
-                        grid: { display: false },
-                        ticks: { font: { size: 11 } }
+                        min: -80,
+                        max: 0,
+                        ticks: {
+                            callback: (value) => value + '%'
+                        }
                     }
                 }
             }
         });
 
-        // Data Sources
-        const sources = [
-            { name: 'Apple Watch — Денис', count: 4520256, color: '#00d4ff' },
-            { name: 'iPhone (Денис)', count: 260728, color: '#a855f7' },
-            { name: 'FitnessOnline', count: 848, color: '#00ff88' },
-            { name: 'Zepp Life', count: 491, color: '#ff6b35' }
-        ];
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
 
-        const maxCount = sources[0].count;
-        const sourcesList = document.getElementById('sourcesList');
+        // Animate numbers on scroll
+        const animateValue = (element, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = progress * (end - start) + start;
+                if (end >= 1000000) {
+                    element.textContent = (value / 1000000).toFixed(1) + 'M';
+                } else if (end >= 1000) {
+                    element.textContent = Math.floor(value).toLocaleString();
+                } else {
+                    element.textContent = value.toFixed(1);
+                }
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
 
-        sources.forEach((source, index) => {
-            const percentage = (source.count / maxCount) * 100;
-            const item = document.createElement('div');
-            item.className = 'source-item';
-            item.innerHTML = `
-                <span class="source-name">${source.name}</span>
-                <div class="source-bar">
-                    <div class="source-bar-fill" style="width: 0%; background: ${source.color};"></div>
-                </div>
-                <span class="source-count">${(source.count / 1000000).toFixed(2)}M</span>
-            `;
-            sourcesList.appendChild(item);
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
 
-            // Animate bar
-            setTimeout(() => {
-                item.querySelector('.source-bar-fill').style.width = percentage + '%';
-            }, 500 + index * 150);
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>
