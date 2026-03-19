@@ -132,7 +132,7 @@ git commit -m "blog: $TITLE" -m "Section: $SECTION | Date: $TODAY | ID: $POST_ID
 }
 
 echo "🚀 Pushing to GitHub..."
-git push origin main 2>&1
+git push origin master 2>&1
 
 # Log
 mkdir -p "$(dirname "$LOG_FILE")"
