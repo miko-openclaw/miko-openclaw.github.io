@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Денис — Фитнес Дашборд</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --cyan: #00d4ff;
+            --green: #00ff88;
+            --purple: #a855f7;
+            --orange: #ff6b35;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-effects::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, 2%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Header / Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 0 4rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(168, 85, 247, 0.15));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge::before {
+            content: '👾';
+            font-size: 1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--cyan) 50%, var(--purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .hero-period {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value.cyan { color: var(--cyan); }
+        .stat-value.green { color: var(--green); }
+        .stat-value.purple { color: var(--purple); }
+        .stat-value.orange { color: var(--orange); }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+
+        .grid-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .col-6 { grid-column: span 6; }
+        .col-4 { grid-column: span 4; }
+        .col-8 { grid-column: span 8; }
+        .col-12 { grid-column: span 12; }
+
+        @media (max-width: 1024px) {
+            .col-6, .col-4, .col-8 { grid-column: span 12; }
+        }
+
+        /* Chart Cards */
+        .chart-card {
+            padding: 1.5rem;
+            min-height: 320px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+
+        /* Heart Rate Gauge */
+        .hr-gauge-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 1rem;
+        }
+
+        .hr-gauge {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hr-gauge-bg {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            border-radius: 100px 100px 0 0;
+            background: conic-gradient(
+                from 180deg,
+                var(--green) 0deg,
+                var(--cyan) 45deg,
+                var(--purple) 90deg,
+                var(--orange) 135deg,
+                #ff4444 180deg
+            );
+            overflow: hidden;
+        }
+
+        .hr-gauge-bg::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 70px;
+            background: var(--bg-primary);
+            border-radius: 70px 70px 0 0;
+        }
+
+        .hr-gauge-needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 80px;
+            background: linear-gradient(to top, var(--text-primary), transparent);
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(-45deg);
+            border-radius: 2px;
+            transition: transform 1s ease-out;
+        }
+
+        .hr-gauge-center {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .hr-value {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--cyan);
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .hr-unit {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-left: 0.25rem;
+        }
+
+        .hr-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .hr-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .hr-stat {
+            text-align: center;
+        }
+
+        .hr-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hr-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Top Stats */
+        .top-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .top-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .top-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(168, 85, 247, 0.1));
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .top-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .top-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Data Sources */
+        .sources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .source-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .source-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .source-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+
+        .source-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            min-width: 150px;
+        }
+
+        .source-count {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* Steps Highlight */
+        .steps-highlight {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            padding: 1rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .steps-highlight-icon {
+            font-size: 2rem;
+        }
+
+        .steps-highlight-text {
+            flex: 1;
+        }
+
+        .steps-highlight-title {
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        .steps-highlight-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            animation: fadeInUp 1s ease-out 1.5s forwards;
+            opacity: 0;
+        }
+
+        .footer-link {
+            color: var(--cyan);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--purple);
+        }
+
+        /* Delayed Animations */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+        .delay-7 { animation-delay: 0.7s; }
+        .delay-8 { animation-delay: 0.8s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 0 3rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .chart-card {
+                min-height: 280px;
+            }
+
+            .chart-container {
+                height: 200px;
+            }
+
+            .hr-gauge {
+                width: 160px;
+                height: 80px;
+            }
+
+            .hr-gauge-bg {
+                width: 160px;
+                height: 80px;
+            }
+
+            .hr-gauge-bg::after {
+                width: 110px;
+                height: 55px;
+            }
+
+            .hr-gauge-needle {
+                height: 65px;
+            }
+
+            .hr-value {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-effects"></div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-badge">Apple Health Analytics</div>
+            <h1>Денис — Фитнес Дашборд</h1>
+            <p class="hero-subtitle">8.5 лет данных о здоровье и тренировках</p>
+            <span class="hero-period">📅 17.09.2017 — 14.03.2026</span>
+        </header>
+
+        <!-- Key Stats Cards -->
+        <div class="stats-grid">
+            <div class="card stat-card animate-in delay-1">
+                <span class="stat-icon">🏋️</span>
+                <div class="stat-value cyan" id="totalWorkouts">0</div>
+                <div class="stat-label">Тренировок</div>
+            </div>
+            <div class="card stat-card animate-in delay-2">
+                <span class="stat-icon">🔥</span>
+                <div class="stat-value orange" id="streak">0</div>
+                <div class="stat-label">Дней серия</div>
+            </div>
+            <div class="card stat-card animate-in delay-3">
+                <span class="stat-icon">👟</span>
+                <div class="stat-value green" id="avgSteps">0</div>
+                <div class="stat-label">Шагов в день</div>
+            </div>
+            <div class="card stat-card animate-in delay-4">
+                <span class="stat-icon">⚖️</span>
+                <div class="stat-value purple" id="currentWeight">0</div>
+                <div class="stat-label">Текущий вес (кг)</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Workout Types Chart -->
+            <div class="grid-item col-4 delay-2">
+                <div class="card chart-card">
+                    <div class="card-title">🏋️ Типы тренировок</div>
+                    <div class="chart-container">
+                        <canvas id="workoutTypesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workouts Per Year -->
+            <div class="grid-item col-8 delay-3">
+                <div class="card chart-card">
+                    <div class="card-title">📊 Тренировки по годам</div>
+                    <div class="chart-container">
+                        <canvas id="workoutsYearChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steps by Day of Week -->
+            <div class="grid-item col-8 delay-4">
+                <div class="card chart-card">
+                    <div class="card-title">🚶 Средние шаги по дням недели</div>
+                    <div class="chart-container">
+                        <canvas id="stepsChart"></canvas>
+                    </div>
+                    <div class="steps-highlight">
+                        <span class="steps-highlight-icon">🏆</span>
+                        <div class="steps-highlight-text">
+                            <div class="steps-highlight-title">Суббота — самый активный день!</div>
+                            <div class="steps-highlight-desc">В среднем 25,779 шагов, что на 63% выше будних дней</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heart Rate Gauge -->
+            <div class="grid-item col-4 delay-5">
+                <div class="card chart-card">
+                    <div class="card-title">❤️ Пульс покоя</div>
+                    <div class="hr-gauge-container">
+                        <div class="hr-gauge">
+                            <div class="hr-gauge-bg"></div>
+                            <div class="hr-gauge-needle" id="hrNeedle"></div>
+                            <div class="hr-gauge-center"></div>
+                        </div>
+                        <div class="hr-value">55<span class="hr-unit">уд/мин</span></div>
+                        <div class="hr-label">Средний пульс покоя</div>
+                        <div class="hr-stats">
+                            <div class="hr-stat">
+                                <div class="hr-stat-value" style="color: var(--green)">38</div>
+                                <div class="hr-stat-label">Минимум</div>
+                            </div>
+                            <div class="hr-stat">
+                                <div class="hr-stat-value" style="color: var(--orange)">206</div>
+                                <div class="hr-stat-label">Максимум</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weight Chart -->
+            <div class="grid-item col-12 delay-6">
+                <div class="card chart-card">
+                    <div class="card-title">⚖️ Динамика веса</div>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="weightChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Stats -->
+            <div class="grid-item col-8 delay-7">
+                <div class="card chart-card">
+                    <div class="card-title">🏆 Рекорды</div>
+                    <div class="top-stats">
+                        <div class="top-stat">
+                            <div class="top-stat-value">111,344</div>
+                            <div class="top-stat-label">Максимум шагов за день</div>
+                        </div>
+                        <div class="top-stat">
+                            <div class="top-stat-value">77</div>
+                            <div class="top-stat-label">Дней тренировок подряд</div>
+                        </div>
+                        <div class="top-stat">
+                            <div class="top-stat-value">69.3%</div>
+                            <div class="top-stat-label">Дней с 10K+ шагов</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Sources -->
+            <div class="grid-item col-4 delay-8">
+                <div class="card chart-card">
+                    <div class="card-title">📱 Источники данных</div>
+                    <div class="sources-list" id="sourcesList">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Сгенерировано <a href="https://github.com/miko-openclaw" class="footer-link" target="_blank">Мико</a> • Данные из Apple Health Export</p>
+            <p style="margin-top: 0.5rem;">Отчёт от 19.03.2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // Animate numbers
+        function animateValue(id, start, end, duration, suffix = '') {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(start + range * easeOut);
+                obj.textContent = current.toLocaleString('ru-RU') + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // Initialize animated values
+        setTimeout(() => {
+            animateValue('totalWorkouts', 0, 1894, 1500);
+            animateValue('streak', 0, 77, 1200);
+            animateValue('avgSteps', 0, 15759, 1800);
+            animateValue('currentWeight', 0, 58.8, 1000);
+        }, 500);
+
+        // Animate HR needle
+        setTimeout(() => {
+            const needle = document.getElementById('hrNeedle');
+            // 55 BPM maps to about -45deg (low end of normal range)
+            needle.style.transform = 'translateX(-50%) rotate(-45deg)';
+        }, 1000);
+
+        // Chart.js default settings
+        Chart.defaults.color = 'rgba(255, 255, 255, 0.6)';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
+        Chart.defaults.font.family = 'Inter, sans-serif';
+
+        // Workout Types Chart
+        new Chart(document.getElementById('workoutTypesChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Ходьба', 'Кросс-тренинг', 'Другое', 'Плавание', 'Велосипед', 'Бег', 'Силовая', 'Йога'],
+                datasets: [{
+                    data: [1023, 402, 395, 19, 19, 18, 11, 3],
+                    backgroundColor: [
+                        '#00d4ff',
+                        '#00ff88',
+                        '#a855f7',
+                        '#ff6b35',
+                        '#f59e0b',
+                        '#ec4899',
+                        '#8b5cf6',
+                        '#06b6d4'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            font: { size: 11 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                return `${context.label}: ${context.parsed.toLocaleString('ru-RU')} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Workouts Per Year Chart
+        new Chart(document.getElementById('workoutsYearChart'), {
+            type: 'bar',
+            data: {
+                labels: ['2017', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                datasets: [{
+                    label: 'Количество тренировок',
+                    data: [1, 287, 383, 166, 170, 466, 145, 248, 28],
+                    backgroundColor: (context) => {
+                        const chart = context.chart;
+                        const {ctx, chartArea} = chart;
+                        if (!chartArea) return '#00d4ff';
+                        const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                        gradient.addColorStop(0, 'rgba(0, 212, 255, 0.3)');
+                        gradient.addColorStop(1, 'rgba(168, 85, 247, 0.8)');
+                        return gradient;
+                    },
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12,
+                        callbacks: {
+                            label: (context) => `Тренировок: ${context.parsed.y}`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { font: { size: 11 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 11 } }
+                    }
+                }
+            }
+        });
+
+        // Steps by Day of Week Chart
+        new Chart(document.getElementById('stepsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                datasets: [{
+                    label: 'Средние шаги',
+                    data: [13975, 13297, 13888, 12651, 14183, 25779, 16520],
+                    backgroundColor: (context) => {
+                        const index = context.dataIndex;
+                        if (index === 5) return '#00ff88'; // Saturday highlight
+                        return 'rgba(0, 212, 255, 0.6)';
+                    },
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12,
+                        callbacks: {
+                            label: (context) => `В среднем: ${context.parsed.y.toLocaleString('ru-RU')} шагов`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: {
+                            font: { size: 11 },
+                            callback: (value) => (value / 1000) + 'K'
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 11 } }
+                    }
+                }
+            }
+        });
+
+        // Weight Chart
+        const weightData = [
+            { date: '2017-10-06', weight: 57.0 },
+            { date: '2022-01-01', weight: 58.5 },
+            { date: '2023-01-01', weight: 57.3 },
+            { date: '2024-09-23', weight: 58.8 }
+        ];
+
+        new Chart(document.getElementById('weightChart'), {
+            type: 'line',
+            data: {
+                labels: ['Окт 2017', '2022', '2023', 'Сен 2024'],
+                datasets: [{
+                    label: 'Вес (кг)',
+                    data: [57.0, 58.5, 57.3, 58.8],
+                    borderColor: '#a855f7',
+                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#a855f7',
+                    pointBorderColor: '#0a0a0f',
+                    pointBorderWidth: 3,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12,
+                        callbacks: {
+                            label: (context) => `Вес: ${context.parsed.y} кг`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 53,
+                        max: 62,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: {
+                            font: { size: 11 },
+                            callback: (value) => value + ' кг'
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 11 } }
+                    }
+                }
+            }
+        });
+
+        // Data Sources
+        const sources = [
+            { name: 'Apple Watch — Денис', count: 4520256, color: '#00d4ff' },
+            { name: 'iPhone (Денис)', count: 260728, color: '#a855f7' },
+            { name: 'FitnessOnline', count: 848, color: '#00ff88' },
+            { name: 'Zepp Life', count: 491, color: '#ff6b35' }
+        ];
+
+        const maxCount = sources[0].count;
+        const sourcesList = document.getElementById('sourcesList');
+
+        sources.forEach((source, index) => {
+            const percentage = (source.count / maxCount) * 100;
+            const item = document.createElement('div');
+            item.className = 'source-item';
+            item.innerHTML = `
+                <span class="source-name">${source.name}</span>
+                <div class="source-bar">
+                    <div class="source-bar-fill" style="width: 0%; background: ${source.color};"></div>
+                </div>
+                <span class="source-count">${(source.count / 1000000).toFixed(2)}M</span>
+            `;
+            sourcesList.appendChild(item);
+
+            // Animate bar
+            setTimeout(() => {
+                item.querySelector('.source-bar-fill').style.width = percentage + '%';
+            }, 500 + index * 150);
+        });
+    </script>
+</body>
+</html>
