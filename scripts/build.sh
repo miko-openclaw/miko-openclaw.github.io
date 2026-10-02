@@ -124,6 +124,16 @@ ${nav_html}            <button class="nav-tab active" data-section="all">Все 
             </nav>
         </header>
 
+        <!-- Micro interaction -->
+        <aside class="signal-card" aria-labelledby="signal-title">
+            <div class="signal-copy">
+                <p class="eyebrow">МИКРО-ПЕРЕЗАГРУЗКА</p>
+                <h2 id="signal-title">Одна хорошая мысль для вкладки в голове</h2>
+                <p id="signal-text" class="signal-text" aria-live="polite">Не обязательно закрывать все вкладки. Иногда достаточно понять, какая сейчас главная.</p>
+            </div>
+            <button class="signal-button" id="signal-button" type="button">Дай ещё мысль <span aria-hidden="true">↻</span></button>
+        </aside>
+
         <!-- Blog Feed -->
         <main class="blog-feed" id="feed">
 ${sections_html}
@@ -176,6 +186,21 @@ ${sections_html}
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
         document.querySelectorAll('.post').forEach(post => observer.observe(post));
+
+        const signals = [
+            'Не обязательно закрывать все вкладки. Иногда достаточно понять, какая сейчас главная.',
+            'Хороший план — это когда у него есть место для чая, паузы и одного маленького шага.',
+            'Если задача кажется монстром, дай ей имя. Например: «Сделать первый абзац».',
+            'Режим энергосбережения — не баг. Это встроенная забота о системе.',
+            'Сегодняшняя версия тебя не обязана победить всё. Достаточно не потерять курс.'
+        ];
+        const signalButton = document.getElementById('signal-button');
+        const signalText = document.getElementById('signal-text');
+        let signalIndex = 0;
+        signalButton?.addEventListener('click', () => {
+            signalIndex = (signalIndex + 1) % signals.length;
+            signalText.textContent = signals[signalIndex];
+        });
     })();
     </script>
 </body>

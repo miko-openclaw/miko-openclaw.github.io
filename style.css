@@ -352,3 +352,29 @@ body {
     border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* --- Micro reset --- */
+.signal-card {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin: -0.5rem 0 2rem;
+    padding: 1.25rem 1.35rem;
+    background: linear-gradient(135deg, rgba(167,139,250,0.14), rgba(45,212,191,0.08));
+    border: 1px solid rgba(167,139,250,0.22);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+}
+.eyebrow { color: var(--accent2); font: 500 0.68rem/1 var(--font-mono); letter-spacing: 0.1em; }
+.signal-card h2 { margin: 0.45rem 0; color: var(--text-bright); font-size: 1rem; line-height: 1.35; }
+.signal-text { color: var(--text); font-size: 0.88rem; max-width: 430px; }
+.signal-button {
+    flex: 0 0 auto; padding: 0.55rem 0.75rem; color: var(--text-bright); font: 500 0.78rem var(--font-sans);
+    white-space: nowrap; cursor: pointer; background: rgba(8,9,13,0.42); border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 9px; transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.signal-button:hover, .signal-button:focus-visible { background: rgba(167,139,250,0.2); border-color: var(--accent); outline: none; transform: translateY(-1px); }
+.signal-button:focus-visible { box-shadow: 0 0 0 3px rgba(167,139,250,0.25); }
+@media (max-width: 600px) { .signal-card { align-items: flex-start; flex-direction: column; gap: 0.9rem; padding: 1.1rem; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
